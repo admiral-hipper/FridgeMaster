@@ -18,13 +18,7 @@ class SimpleBook implements BookInterface
     }
     public function single(int $id)
     {
-        $model = Orders::where('id', '=', $id)->where('customers_id', '=', Auth::guard('apiAccess')->id())->get();
-        if (!count($model))
-            throw new HttpResponseException(response()->json([
-                "success" => false,
-                "message" => "You don't have acces to this order or it doesn't exist",
-            ], 401));
-        return $model[0];
+        return $this->access($id, Auth::guard('apiAccess')->id());
     }
     public function save(array $data)
     {
@@ -44,7 +38,7 @@ class SimpleBook implements BookInterface
     public function update(array $data, $id)
     {
         $this->setBill($data);
-        $model = $this->access(Orders::where('id', '=', $id)->where('customers_id', '=', Auth::guard('apiAccess')->id())->get());
+        $model = $this->access($id, Auth::guard('apiAccess')->id());
         $model->status = false;
         $model->save();
         $information = $this->bill->information();
@@ -62,23 +56,37 @@ class SimpleBook implements BookInterface
     }
     public function delete(int $id)
     {
-        $model = $this->access(Orders::whereId($id)->where('customers_id', '=', Auth::guard('apiAccess')->id())->get());
+        $model = $this->access($id, Auth::guard('apiAccess')->id());
         $model->status = false;
         $model->save();
         return $model;
     }
+
+    /**
+     * Set all data from calculation process for next operations
+     * @param array $data Array of data for calculation
+     * @return void
+     */
+
     private function setBill(array $data)
     {
         $this->bill = new SimpleBill($data);
         $this->data = $data;
     }
-    private function access($model)
+    /**
+     * Chech if current customer has access for selected booking and order data
+     * @param int $order_id ID of order for checking
+     * @param int $customer_id ID of customer for checking access
+     * @return $model
+     */
+    private function access(int $order_id, int $customer_id)
     {
-        if (!count($model))
+        $model = Orders::whereId($order_id)->where('customers_id', '=', $customer_id);
+        if (!$model->count())
             throw new HttpResponseException(response()->json([
                 "success" => false,
                 "message" => "You don't have acces to this order or it doesn't exist",
             ], 401));
-        return $model[0];
+        return $model->first();
     }
 }

@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    /**
+     * Controller method for signUp new customers account
+     * @return JsonResponse
+     */
     public function signUp(SignUpRequest $request): JsonResponse
     {
         $customer = Customers::create($request->all()); // Create new customer
@@ -24,6 +28,10 @@ class AuthController extends Controller
             "message" => "You were successfully signed up!"
         ), 200);
     }
+    /**
+     * Controller method for logging existing customers by login and password
+     * @return JsonResponse
+     */
     public function signIn(SignInRequest $request): JsonResponse
     {
         if (Auth::guard('apiAccess')->attempt([ //Check if password and login is correct
@@ -39,6 +47,11 @@ class AuthController extends Controller
             "message" => "Password or login is wrong!"
         ), 401);
     }
+
+    /**
+     * Controller method for signOut logged customers
+     * @return JsonResponse
+     */
     public function signOut(): JsonResponse
     {
         Auth::guard('apiAccess')->logout();

@@ -29,6 +29,10 @@ class SimpleBill implements BillInterface{
         ]);
         return $result;
     }
+    /**
+     * Select from DB all spare blocks of current location
+     * @return $model Spare bLocks collection
+     */
     protected function spareBlocks(){
         if(!count($this->location->get()))
         throw new HttpResponseException(response()->json(["message"=>"This location doesn't exist"],404));

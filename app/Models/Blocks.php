@@ -16,6 +16,12 @@ class Blocks extends Model
     {
         return $this->belongsToMany(Orders::class)->withTimestamps();
     }
+    /**
+     * Select only spare blocks in set period
+     * @param DateTime $start_rent Date of starting booking term
+     * @param DateTime $end_rent Date of ending booking term
+     * @return $query
+     */
     public function scopeTerm($query, $start_rent, $end_rent)
     {
         return $query->where(function ($query) use ($start_rent, $end_rent) {
@@ -32,6 +38,10 @@ class Blocks extends Model
             });
         });
     }
+    /**
+     * Select oblocks only in set range
+     * @param float $temperature needed temperature for placing things
+     */
     public function scopeTemperature($query, $temperature)
     {
         return $query->where(function ($query) use ($temperature) {
@@ -39,6 +49,10 @@ class Blocks extends Model
                 ->Where('temperature', '<=', $temperature + 2);
         })->where('temperature', '<', 0);
     }
+    /**
+     * Select blocks which don't have bookings
+     * @return $query
+     */
     public function scopeSpare($query)
     {
         return $query->where(function ($query) {
