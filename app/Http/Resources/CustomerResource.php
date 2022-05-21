@@ -15,7 +15,7 @@ class CustomerResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user_orders' => OrderResource::collection($this->orders->where('status', '=', true))
+            'orders' => OrderResource::collection($this->orders->where('status', '=', true))
         ];
     }
     public static $wrap="customer";
