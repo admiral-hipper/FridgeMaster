@@ -15,8 +15,8 @@ class BlockResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'temperature' => $this->temperature,
-            'location' => $this->locations->location
         ];
     }
 }

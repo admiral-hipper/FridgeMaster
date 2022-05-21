@@ -7,14 +7,11 @@ use App\Business\SimpleBook;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\BookUpdateRequest;
 use App\Http\Requests\CalculationRequest;
-use App\Http\Requests\TerminateRequest;
 use App\Http\Resources\CalculationResource;
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\LessBlocksResource;
-use App\Http\Resources\LocationResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Customers;
-use App\Models\Locations;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 

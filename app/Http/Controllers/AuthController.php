@@ -12,14 +12,17 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function signUp(SignUpRequest $request): JsonResource
+    public function signUp(SignUpRequest $request): JsonResponse
     {
         $customer = Customers::create($request->all()); // Create new customer
         Auth::guard('apiAccess')->attempt([ //Automaticly allow access
             "login" => $request->login,
             "password" => $request->password
         ]);
-        return new CustomerResource($customer);
+        return  response()->json(array(
+            "success" => true,
+            "message" => "You were successfully signed up!"
+        ), 200);
     }
     public function signIn(SignInRequest $request): JsonResponse
     {
@@ -34,7 +37,7 @@ class AuthController extends Controller
         return response()->json(array(
             "success" => false,
             "message" => "Password or login is wrong!"
-        ), 403);
+        ), 401);
     }
     public function signOut(): JsonResponse
     {

@@ -9,6 +9,6 @@ class BlocksController extends Controller
 {
     public function index()
     {
-        return new LocationResource(Locations::all());
+        return LocationResource::collection(Locations::all());
     }
 }

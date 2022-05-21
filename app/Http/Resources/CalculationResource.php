@@ -17,11 +17,11 @@ class CalculationResource extends JsonResource
         return [
             "enough_blocks" => true,
             "total_price"  => $this->resource['price'],
-            "term"=>$this->resource['term'],
-            "location"=>$this->resource['location']->location,
+            "term" => $this->resource['term'],
+            "location" => $this->resource['location']->location,
             "needed_blocks" => $this->resource['blocks_count'],
-            "blocks"=>BlockResource::collection($this->resource['blocks']),
+            "blocks" => BlockResource::collection($this->resource['blocks']),
         ];
     }
-    public static $wrap="calculated";
+    public static $wrap = "calculation";
 }

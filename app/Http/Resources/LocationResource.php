@@ -12,7 +12,6 @@ class LocationResource extends JsonResource
      *
      * @var string
      */
-    public static $wrap = 'location';
 
     /**
      * The resource that this resource collects.
@@ -29,7 +28,7 @@ class LocationResource extends JsonResource
      */
     public function toArray($request)
     {
-        $count = count($this->block()->spare()->get());
+        $count = $this->blocks()->spare()->count();
         return [
             'location_name' => $this->location,
             'location_slug' => $this->slug,
@@ -38,10 +37,5 @@ class LocationResource extends JsonResource
         ];
     }
 
-    public function with($request)
-    {
-        return [
-            "success" => true,
-        ];
-    }
+    public static $wrap = "locations";
 }
